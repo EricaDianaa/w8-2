@@ -1,8 +1,20 @@
 "use strict";
-// ESERCIZIO SOLO CON CONSOLE.LOG
-//CREAZIONE CLASSI
+//ESERCIZIO SU SCHERMO
+//RIFERIMENTI HTML
+let versamenti1 = document.getElementById("Versamento");
+let prelievi1 = document.getElementById("prelievo");
+let versamenti2 = document.getElementById("Versamento1");
+let prelievi2 = document.getElementById("prelievo1");
+let button1 = document.getElementById("invia1");
+let button2 = document.getElementById("invia2");
+let button3 = document.getElementById("invia3");
+let button4 = document.getElementById("invia4");
+let div = document.getElementById("numberDiv");
+let div1 = document.getElementById("numberDiv1");
 let saldo = document.getElementById("saldo");
 let saldo1 = document.getElementById("saldo1");
+// ESERCIZIO SOLO CON CONSOLE.LOG
+//CREAZIONE CLASSI
 console.log("---------------Primo conto------------------");
 class SonAccount {
     constructor(vers, pre) {
@@ -27,58 +39,9 @@ class SonAccount {
         saldo.innerHTML = `<p> Il tuo conto attuale è di ${this.conto + this.versamento - this.prelievo}$</p>`;
     }
 }
-let oneBankAccount = new SonAccount(50, 10);
-console.log("---------------Secondo conto------------------");
-class MotherAccount {
-    constructor(vers, pre) {
-        this.conto = 0;
-        this.versamento = vers;
-        this.prelievo = pre;
-        this.addInterest = 10;
-        this.twoDeposit();
-        this.twoWithDraw();
-        this.contoAttuale();
-        this.Interessi();
-    }
-    twoDeposit() {
-        let som = this.conto + this.versamento;
-        console.log("Hai versato" + " " + som);
-    }
-    twoWithDraw() {
-        let som = this.conto - this.prelievo;
-        console.log("Hai prelevato" + " " + som);
-    }
-    contoAttuale() {
-        let som = this.conto + this.versamento - this.prelievo;
-        console.log("Il tuo conto attuale è" + " " + som);
-        saldo1.innerHTML = `<p> Il tuo conto attuale è di ${this.conto + this.versamento - this.prelievo}$</p>`;
-    }
-    Interessi() {
-        let som = this.conto + this.versamento - this.prelievo;
-        let calcolo = (som * this.addInterest * 24) / 1200;
-        let tot = (som * this.addInterest * 24) / 1200 + som;
-        console.log("Il tasso di interesse è " + " " + calcolo);
-        console.log("Il tuo conto ha maturato " + " " + tot);
-    }
-}
-let secondBankAccount = new MotherAccount(1000, 0);
-//ESERCIZIO SU SCHERMO
-//RIFERIMENTI HTML
-let versamenti1 = document.getElementById("Versamento");
-let prelievi1 = document.getElementById("prelievo");
-let versamenti2 = document.getElementById("Versamento1");
-let prelievi2 = document.getElementById("prelievo1");
-let button1 = document.getElementById("invia1");
-let button2 = document.getElementById("invia2");
-let button3 = document.getElementById("invia3");
-let button4 = document.getElementById("invia4");
-let div = document.getElementById("numberDiv");
-let div1 = document.getElementById("numberDiv1");
 //SELEZIONO I VALORI INPUT
 let vers1;
 let pre1;
-let vers2;
-let pre2;
 button1.addEventListener("click", function () {
     let vers1 = versamenti1.value;
     console.log(vers1);
@@ -89,13 +52,62 @@ button2.addEventListener("click", function () {
     console.log(pre1);
     div.innerHTML = `<p> Hai prelevato ${prelievi1.value}$</p>`;
 });
+let oneBankAccount = new SonAccount(70, 10);
+console.log("---------------Secondo conto------------------");
+class MotherAccount {
+    constructor(vers, pre) {
+        this.conto = 0;
+        this.versamento = vers;
+        this.prelievo = pre;
+        this.addInterest = 10;
+        // this.twoDeposit(); //elimina
+        // this.twoWithDraw();
+        // this.contoAttuale();
+        this.Interessi();
+    }
+    twoDeposit(ver) {
+        let som = this.conto + ver;
+        console.log("Hai versato" + " " + som);
+        saldo1.innerHTML = `<p>Il tuo conto attuale è ${som}$</p>`;
+    }
+    twoWithDraw(pre) {
+        let som = this.conto - pre;
+        console.log("Hai prelevato" + " " + som);
+        saldo1.innerHTML = `<p>Il tuo conto attuale è ${som}$</p>`;
+    }
+    contoAttuale(ver, pre) {
+        let som = this.conto + ver - pre;
+        console.log("Il tuo conto attuale è" + " " + som);
+        saldo1.innerHTML = `<p> Il tuo conto attuale è di ${som}$</p>`;
+        console.log("conto", this.conto);
+    }
+    Interessi() {
+        let som = this.conto + this.versamento - this.prelievo;
+        let calcolo = (som * this.addInterest * 24) / 1200;
+        let tot = (som * this.addInterest * 24) / 1200 + som;
+        console.log("Il tasso di interesse è " + " " + calcolo);
+        console.log("Il tuo conto ha maturato " + " " + tot);
+    }
+}
+let secondBankAccount = new MotherAccount(0, 0);
+//SELEZIONO I VALORI INPUT
+let vers2;
+let pre2;
 button3.addEventListener("click", function () {
-    let vers2 = versamenti2.value;
-    console.log(vers2);
+    let vers2 = Number(versamenti2.value);
+    let pre2 = Number(prelievi2.value);
+    //  if(button4.onclick){};
+    secondBankAccount.twoDeposit(vers2);
+    secondBankAccount.contoAttuale(vers2, pre2);
     div1.innerHTML = `<p> Hai versato ${versamenti2.value}$</p>`;
+    versamenti2.value = "";
 });
 button4.addEventListener("click", function () {
-    let pre2 = prelievi2.value;
-    console.log(pre2);
+    let vers2 = Number(versamenti2.value);
+    let pre2 = Number(prelievi2.value);
+    secondBankAccount.twoWithDraw(pre2);
+    console.log("vers2", vers2);
+    secondBankAccount.contoAttuale(vers2, pre2);
     div1.innerHTML = `<p> Hai prelevato ${prelievi2.value}$</p>`;
+    prelievi2.value = "";
 });
